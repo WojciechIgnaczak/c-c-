@@ -2,7 +2,7 @@
 
 int main()
 {
-    int x=3;
+    int x=6;
     switch(x)
     {
         case 1:
@@ -13,6 +13,9 @@ int main()
         break;
         case 3:
         printf("3");
+        break;
+        default:
+        printf("x");
         break;
     }
 
