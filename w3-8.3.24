@@ -1,0 +1,510 @@
+użytkownik 8 na 1
+192.168.48.3
+hasło u08
+ssh u08@192.168.48.3
+putty
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+64-bit x86
+hostname: u08@192.168.48.3
+passwd:u08
+
+u08@raspberrypi01:~ $ gcc program.c //kompilacja programu
+u08@raspberrypi01:~ $ ./a.out   wyświetlanie wyniku
+u08@raspberrypi01:~ $ mkdir c //tworzenie nowego katalogu
+u08@raspberrypi01:~ $ gcc program.c -o superprogram    //zapisanie skompilowanego programu do pliku superprogram
+u08@raspberrypi01:~ $ mv program.c c
+u08@raspberrypi01:~ $ mv superprogram c
+
+
+struktura ma dwie skladowe -2liczby
+nastepnie tablica ktora przechowywuje 10 struktur
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# tablica struktur z losowymi wartosciami,  i wypisywaniem
+'''
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+int main()
+{
+ srand(time(NULL));
+
+ struct wektor s0,s1,s2,s3,s4,s5,s6,s7,s8,s9;
+ struct wektor tab[10];
+ tab[2].x=5;
+ tab[2].y=7;
+ for(int i=0;i<10;i++)
+ {
+  tab[i].x=rand();
+  tab[i].y=rand();
+ }
+ for(int j=0;j<10;j++)
+ {
+  printf("%d element tablicy: ",j);
+  wypisz(tab[j]);
+ }
+
+ return 0;
+}
+'''
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+void init(struct wektor tab[],int r)
+{
+ for(int i=0;i<r;i++)
+ {
+  tab[i].x=rand()%101;
+  tab[i].y=rand()%101;
+ }
+}
+
+int main()
+{
+ srand(time(NULL));
+
+ struct wektor s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,tab[10];
+ init(tab,10);
+
+ for(int j=0;j<10;j++)
+ {
+  printf("%d element tablicy: ",j);
+  wypisz(tab[j]);
+ }
+
+ return 0;
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+wyswietl proste menu 
+-wypisz wszystkie elementy
+-wyjscie
+-podanie wartosci dla 1 elementu elementu(program pyta który element, user podaje x i y)
+
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#define TAB_SIZE 10
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+void init(struct wektor tab[],int r)
+{
+ for(int i=0;i<r;i++)
+ {
+  tab[i].x=0;
+  tab[i].y=0;
+ }
+}
+
+int main()
+{
+ srand(time(NULL));
+ int w;
+
+ struct wektor s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,tab[TAB_SIZE];
+ init(tab,TAB_SIZE);
+while(w!=1){
+ printf("0= wyswietl tablice struktur, 1=wyjdź z programu 2=podanie wartosci wektora:\n");
+ scanf("%d",&w);
+ if(w!=1 || w!=0 || w!=2 ||w!=1);
+
+ switch(w)
+{
+ case 0:
+ for(int j=0;j<TAB_SIZE;j++)
+ {
+  printf("%d element tablicy: ",j);
+  wypisz(tab[j]);
+ }
+
+ case 1:
+ {
+  break;
+ }
+
+ case 2:
+ {
+  int k;
+  printf("Podaj index wektora którego wartość chcesz zmienić w zakresie 0-9:\n");
+  scanf("%d",&k);
+  if(k>0 && k<=9)
+  {
+   int r,e;
+   printf("Podaj wartosc x:");
+   scanf("%d",&e);
+   tab[k].x=e;
+   printf("Podaj wartosc y:");
+   scanf("%d",&r);
+   tab[k].y=r;
+  }
+
+ }
+}
+}
+ return 0;
+}
+
+
+
+
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#define TAB_SIZE 10
+enum option {CONTINUE, QUIT}
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+void init(struct wektor tab[],int r)
+{
+ for(int i=0;i<r;i++)
+ {
+  tab[i].x=0;
+  tab[i].y=0;
+ }
+}
+
+enum option menu()
+{
+char buffer[32];
+printf("[a] Wypisz wszystkie\n");
+printf("[s] Ustaw wybrany\n");
+printf("[q] wyjscie\n");
+printf("Podaj opcje: ");
+scanf("%s",buffer);
+printf("Dokonany wybor %s\n",buffer);
+if (strcmp(buffer,"a")==0)
+{printf("Opcja [a]\n");}
+else if(strcmp(buffer,"s")==0){printf("Opcja [s]\n");}
+else if(strcmp(buffer,"q")==0){printf("Opcja [q]\n");return QUIT;}
+return CONTINUE;
+}
+int main()
+{
+ srand(time(NULL))
+
+ struct wektor tab[TAB_SIZE];
+  int i;
+ enum  option choice =CONTINUE;
+ init(tab,TAB_SIZE);
+ while(choice == CONTINUE)
+  {
+  choice=menu();
+
+
+  }
+ return 0;
+}
+
+===
+opcja pozwalająca wpisanie elementu na 1 wolną pozycje jaka będzie
+wyczysc który element ma byc wyczysczony
+
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#define TAB_SIZE 10
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+void init(struct wektor tab[],int r)
+{
+ for(int i=0;i<r;i++)
+ {
+  tab[i].x=0;
+  tab[i].y=0;
+ }
+}
+
+int main()
+{
+ srand(time(NULL));
+ int w;
+
+ struct wektor s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,tab[TAB_SIZE];
+ init(tab,TAB_SIZE);
+while(w!=1)
+{
+ printf("\n\n\t\tPOLECENIA\n");
+ printf("0 = wyswietl tablice struktur\n1 = wyjdź z programu\n2 = podanie wartosci wektora:\n3 = czyszczenie\n4 = wpisanie na pierwszą wolną pozycje\n");
+ scanf("%d",&w);
+ printf("Podales polenie: %d\n\n",w);
+ if(w!=1 || w!=0 || w!=2 || w!=1 || w!=3|| w!=4);
+
+ switch(w)
+{
+ case 0: //wyswietlenie wszystkich elementów
+ for(int j=0;j<TAB_SIZE;j++)
+ {
+  printf("%d element tablicy: ",j);
+  wypisz(tab[j]);
+ }
+
+ case 1:
+ 
+  break;
+
+
+ case 2://wpisanie wybranego elementu
+ 
+  int k;
+  printf("Podaj index wektora którego wartość chcesz zmienić w zakresie 0-9:\n");
+  scanf("%d",&k);
+  if(k>=0 && k<=9)
+  {
+   int r,e;
+   printf("Podaj wartosc x:");
+   scanf("%d",&e);
+   tab[k].x=e;
+   printf("Podaj wartosc y:");
+   scanf("%d",&r);
+   tab[k].y=r;
+  }
+  break;
+
+
+ case 3://czyszczenie wybranego elementu
+ 
+    int l;
+    printf("Podaj index wektora którego wartość chcesz wyczyscic w zakresie 0-9:\n");
+    scanf("%d",&l);
+    tab[l].x=0;
+    tab[l].y=0;
+    break;
+    
+    
+ case 4://wpisanie elementu na 1 wolną pozycje
+ 
+    for(int i=0;i<TAB_SIZE;i++)
+    {
+        if(tab[i].x==0 && tab[i].y==0)
+        {
+            int r,e;
+        printf("Podaj wartosc x:");
+        scanf("%d",&e);
+        tab[i].x=e;
+        printf("Podaj wartosc y:");
+        scanf("%d",&r);
+        tab[i].y=r;
+        break;
+        }
+        else{continue;}
+    }
+ 
+}
+}
+ return 0;
+}
+
+
+\\\\\\
+statystyka 
+wśród struktur nie zerowych
+najwiekszy i najmniejszy x,y
+i srednia z nie zerowych
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#define TAB_SIZE 10
+struct wektor
+{
+ int x;
+ int y;
+};
+
+void wypisz(struct wektor s)
+{
+ printf("%d %d\n",s.x, s.y);
+}
+
+void init(struct wektor tab[],int r)
+{
+ for(int i=0;i<r;i++)
+ {
+  tab[i].x=0;
+  tab[i].y=0;
+ }
+}
+
+int main()
+{
+ srand(time(NULL));
+ int w;
+
+ struct wektor s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,tab[TAB_SIZE];
+ init(tab,TAB_SIZE);
+while(w!=1)
+{
+ printf("\n\n\t\tPOLECENIA\n");
+ printf("0 = wyswietl tablice struktur\n1 = wyjdź z programu\n2 = podanie wartosci wektora:\n3 = czyszczenie\n4 = wpisanie na pierwszą wolną pozycje\n5 = statystyka\n");
+ scanf("%d",&w);
+ printf("Podales polenie %d\n\n",w);
+ switch(w)
+{
+ case 0: //wyswietlenie wszystkich elementów
+ for(int j=0;j<TAB_SIZE;j++)
+ {
+  printf("%d element tablicy: ",j);
+  wypisz(tab[j]);
+ }
+
+ case 1:
+ 
+  break;
+
+
+ case 2://wpisanie wybranego elementu
+ 
+  int k;
+  printf("Podaj index wektora którego wartość chcesz zmienić w zakresie 0-9:\n");
+  scanf("%d",&k);
+  if(k>=0 && k<=9)
+  {
+   int r,e;
+   printf("Podaj wartosc x:");
+   scanf("%d",&e);
+   tab[k].x=e;
+   printf("Podaj wartosc y:");
+   scanf("%d",&r);
+   tab[k].y=r;
+  }
+  break;
+
+
+ case 3://czyszczenie wybranego elementu
+ 
+    int l;
+    printf("Podaj index wektora którego wartość chcesz wyczyscic w zakresie 0-9:\n");
+    scanf("%d",&l);
+    tab[l].x=0;
+    tab[l].y=0;
+    break;
+    
+    
+ case 4://wpisanie elementu na 1 wolną pozycje
+ 
+    for(int i=0;i<TAB_SIZE;i++)
+    {
+        if(tab[i].x==0 && tab[i].y==0)
+        {
+            int r,e;
+        printf("Podaj wartosc x:");
+        scanf("%d",&e);
+        tab[i].x=e;
+        printf("Podaj wartosc y:");
+        scanf("%d",&r);
+        tab[i].y=r;
+        break;
+        }
+        else{continue;}
+    }
+    break;
+ case 5:
+    int counter=0;
+    float result_x=0.0,result_y=0.0,resultx,resulty;
+    for(int i=0;i<TAB_SIZE;i++)
+    {
+        if(tab[i].x!=0 || tab[i].y!=0)
+        {
+        counter++;
+        result_x+=tab[i].x;
+        result_y+=tab[i].y;
+        }
+    }
+    resultx=result_x/counter;
+    resulty=result_y/counter;
+    printf("Srednia wartosc [x,y]= %f %f\n",resultx, resulty);
+    int minx,miny,maxx=0,maxy=0;
+    
+    for(int j=0;j<TAB_SIZE;j++)
+    {
+        
+        if(tab[j].x!=0 || tab[j].y!=0)
+        {
+            miny=tab[j].y;
+            minx=tab[j].x;
+            break;
+        }
+    }
+    for(int j=0;j<TAB_SIZE;j++)
+    {
+        
+        if(tab[j].x!=0 || tab[j].y!=0)
+        {
+            if(tab[j].x>maxx){maxx=tab[j].x;}
+            if(tab[j].y>maxy){maxy=tab[j].y;}
+            if(tab[j].x<minx){minx=tab[j].x;}
+            if(tab[j].y<miny){miny=tab[j].y;}
+        }
+    }
+    printf("Minimalna wartosc x= %d\nMinimalna wartosc y= %d\nMax wartosc x= %d\nMax wartosc y=%d",minx,miny,maxx,maxy);
+}
+}
+ return 0;
+}
+
+
+//struktury, operowanie na strukturach,enumy
