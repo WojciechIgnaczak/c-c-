@@ -1,0 +1,76 @@
+ODCZYT Z PLIKU
+
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    FILE *plik;
+    plik=fopen("f.txt","r");
+    if(plik != NULL)
+    {
+    int c;
+    fscanf(plik,"%d",&c);
+    printf("%d",c);
+    fclose(plik);
+        
+    }
+    return 0;
+}
+======================================
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *plik;
+    plik = fopen("c.txt", "r");
+
+    if (plik == NULL) {
+        printf("Nie można otworzyć pliku.\n");
+        return 1;
+    }
+
+    int znak;
+    while ((znak = fgetc(plik)) != EOF) {
+        putchar(znak);
+    }
+    fclose(plik);
+
+    return 0;
+}
+
+==========================================================================================================================================================================
+ZAPIS DO PLIKU
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    FILE *plik;
+    plik=fopen("f.txt","w");
+    if(plik != NULL)
+    {
+    int c=4;
+    fprintf(plik,"%d",c);
+    fclose(plik);
+        
+    }
+    return 0;
+}
+=======================================================
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *plik;
+    plik = fopen("f.txt", "w");
+
+
+    if (plik == NULL) {
+        printf("Nie można otworzyć pliku.\n");
+        return 1;
+    }
+
+    char *zdanie = "To jest przykładowe 225zdanie do zapisu.";
+    fprintf(plik, "%s\n", zdanie);
+    fclose(plik);
+    return 0; 
+}
