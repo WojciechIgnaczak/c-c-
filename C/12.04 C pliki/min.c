@@ -11,3 +11,4 @@ void printMin(int * tab, int size){
 
         printf("min=%d\n", min);
 }
+
