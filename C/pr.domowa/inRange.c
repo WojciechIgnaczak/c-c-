@@ -3,11 +3,14 @@
 #include <string.h>
 #include <stdbool.h>
 #include "min.h"
-void printInRange(int * tab, struct argument *args,int size){
+void printInRange(int * tab, struct argument *argc,int size){
 	int min,max;
 	bool minInclude,maxInclude;
         int i;
-
+        min=atoi(argc[2].value);
+        max=atoi(argc[3].value);
+        minInclude= argc[4].value;
+        maxInclude= argc[5].value;
         if (!minInclude){
                 min += 1;
         }

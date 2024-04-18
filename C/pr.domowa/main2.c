@@ -54,10 +54,7 @@ int main(int argc, char ** argv) {
                                 return 1;
                         }
 
-                        min = atoi(argv[2]);
-                        max = atoi(argv[3]);
-
-//                        printInRange(tab, min, max, minInclude, maxInclude);
+                        printInRange(tab,argc, 1);
                 }
         }
         return 0;
