@@ -1,0 +1,11 @@
+file :=file_1 file_2 #zmienna
+file_main: $(file) #to samo co file_1 file_2
+	@echo "file_main"
+	@echo "variable: " $(file)
+	@touch file_main
+file_1:
+	@echo "file_1"
+	@touch file_1.txt
+file_2:
+	@echo "file_2"
+	touch file_2.txt

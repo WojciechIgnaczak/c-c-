@@ -1,0 +1,24 @@
+.PHONY: sub_target # mówi nie traktuj tego(sub_target) jako plik, wtedy w wywolaniu target wyswietli subtarget i target
+.DEFAULT_GOAL := say2 # domysla wartosc wypisujaca gdy wywolamy sam make
+
+all: say say2 # wywolujemy tylko funkcje najczesciej niczego nie buduje
+	
+say: 
+	@echo "Hello world"
+
+say2:
+	echo "Hello world 2"
+
+target: sub_target	#wyswielta make target wyswielta sub_target i taget
+	echo "target"
+sub_target:	#jezeli zostanie utworzony plik taget to w wywolaniu target nie wyswietli subtarget
+	echo "sub_target"
+
+generate: 
+	touch file_{l..10}.txt #tworzy plik file_{1..10}.txt
+
+clean:
+	rm *.txt #usuwa wszystkie pliki txtgenerate:
+        touch file_{l..10}.txt #tworzy plik file_{1..10}.txt
+
+

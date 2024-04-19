@@ -1,0 +1,17 @@
+DIROBJ := obj
+
+_OBJ = 19main.o external.o
+OBJ = $(patsubst %,$(DIROBJ)/%,$(_OBJ))
+
+t:
+	echo $(OBJ)
+
+main: $(OBJ) 
+	gcc $^ -o $@
+	
+$(DIROBJ)/%.o: %.c
+	@echo $<
+	@echo $@
+	gcc -c $< -o $@
+clean:
+	rm *.o

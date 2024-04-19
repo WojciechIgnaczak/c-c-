@@ -1,0 +1,19 @@
+target: cond_1 cond_2
+	echo $@ 
+#wyswietla cel
+	echo $<
+#wyswietla warunki
+	echo $^
+# wszystkie elementy wymagan warunku
+	echo $?
+cond_1:
+	@echo "c1"
+	touch c1.txt
+cond_2:
+	@echo "c2"
+	touch c2.txt
+files_txt := $(wildcard *.txt)
+# wildcards w zmiennej filestxt
+cond_3: $(files_txt)
+	@echo "all txt files"
+	@echo $^
