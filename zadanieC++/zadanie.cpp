@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
                 }
             }
         } catch (json::parse_error& e) {
-            cerr << "JSON parse error: " << e.what() << "Skipping line: " << line << endl;
+            cerr << "JSON parse error: " << e.what() << endl;
         }
     }
 
@@ -76,11 +76,9 @@ void calculateHourlyAverage( vector<vector<string>>& data_array) {
         string timestamp = entry[0];
         double U = stod(entry[1]);
         double I = stod(entry[2]);
+        int hour = stoi(timestamp.substr(8, 2));// Pobranie godziny z timestampu
 
-        // Pobranie godziny z timestampu
-        int hour = stoi(timestamp.substr(8, 2));
-
-        // Dodanie danych do sumy i zwiekszenie liczby pomiarów w danej godzinie
+        // Dodanie liczby pomiarów w danej godzinie
         sum_U_per_hour[hour] += U;
         sum_I_per_hour[hour] += I;
         count_per_hour[hour]++;
@@ -104,7 +102,7 @@ void calculateHalfHourlyAverage(vector<vector<string>>& data_array) {
     vector<FiveMinuteData> half_hourly_data(48);
 
     // Iteracja po wszystkich odczytanych danych
-    for ( auto entry : data_array) {
+    for ( auto entry : data_array) {//iteracja po kazdym elemencie
         string timestamp = entry[0];
         double U = stod(entry[1]);
         double I = stod(entry[2]);
