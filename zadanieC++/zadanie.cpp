@@ -1,9 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "json.hpp"
 
-using json = nlohmann::json;
 using namespace std;
 
 void calculateHourlyAverage( vector<vector<string>>& data_array);
@@ -18,13 +16,12 @@ struct FiveMinuteData {
 
 
 int main(int argc, char* argv[]) {
-    //Sprawdzanie wejscia
+    
     string type = argv[2];
     if (argc != 3 || (type != "h" && type != "m30" && type != "m5")) {
         cout <<"Invalid input" << endl;
         return 1;}
 
-    // Wczytanie danych JSON z pliku
     ifstream input_file("solar_panel_data_20240522.json");
     if (!input_file.is_open()) {
         cout << "Could not open the file!" << endl;
@@ -34,9 +31,10 @@ int main(int argc, char* argv[]) {
     // Wektor  do przechowywania danych
     vector<vector<string>> data_array;
 
-    // Wczytanie i przetwarzanie kazdej linii pliku
+   
     string line;
-    while (getline(input_file, line)) {
+    // TO MUSI BYÄ† BEZ BIBLIOTEKI, JSON'a TRAKTUJ JAKO TXT
+    /*while (getline(input_file, line)) {
         try {
             json jsonData = json::parse(line);
             if (jsonData.contains("data")) {
@@ -51,9 +49,9 @@ int main(int argc, char* argv[]) {
         } catch (json::parse_error& e) {
             cerr << "JSON parse error: " << e.what() << endl;
         }
-    }
+    }*/
 
-    // Wybor odpowiedniej funkcji na podstawie argumentu
+    // Wybor funkcji
     if (type == "h") {
         calculateHourlyAverage(data_array);
     } else if (type == "m30") {
@@ -66,19 +64,19 @@ int main(int argc, char* argv[]) {
 }
 
 void calculateHourlyAverage( vector<vector<string>>& data_array) {
-    // Przechowywanie sumy napiecia, sumy natezenia i liczby pomiarów dla kazdej godziny
+    // Przechowywanie napiecia, natezenia,liczby pomiarow
     vector<double> sum_U_per_hour(24, 0.0);
     vector<double> sum_I_per_hour(24, 0.0);
     vector<int> count_per_hour(24, 0);
 
-    // Iteracja po wszystkich odczytanych danych
+    // czas,u,i
     for ( auto entry : data_array) {
         string timestamp = entry[0];
         double U = stod(entry[1]);
         double I = stod(entry[2]);
         int hour = stoi(timestamp.substr(8, 2));// Pobranie godziny z timestampu
 
-        // Dodanie liczby pomiarów w danej godzinie
+        // Dodanie liczby pomiarow w danej godzinie
         sum_U_per_hour[hour] += U;
         sum_I_per_hour[hour] += I;
         count_per_hour[hour]++;
@@ -98,23 +96,21 @@ void calculateHourlyAverage( vector<vector<string>>& data_array) {
 
 
 void calculateHalfHourlyAverage(vector<vector<string>>& data_array) {
-    // Przechowywanie sumy napiecia, sumy natezenia i liczby pomiarów dla kazdego 30-minutowego okresu
+    // Przechowywanie napiecia, natezenia,liczby pomiarow
     vector<FiveMinuteData> half_hourly_data(48);
 
-    // Iteracja po wszystkich odczytanych danych
     for ( auto entry : data_array) {//iteracja po kazdym elemencie
         string timestamp = entry[0];
         double U = stod(entry[1]);
         double I = stod(entry[2]);
 
-        // Pobranie godziny i minuty z timestampu
+        // Pobranie godziny i minuty
         int hour = stoi(timestamp.substr(8, 2));
         int minute = stoi(timestamp.substr(10, 2));
 
-        // Okreslenie indeksu dla danego 30-minutowego okresu
+        // Okreslenie indeksu
         int half_hour_index = hour * 2 + (minute >= 30);//jesli wieksze od 30 to 1 jesli nie to 0
 
-        // Dodanie danych do sumy i zwiekszenie liczby pomiarów w danym 30-minutowym okresie
         half_hourly_data[half_hour_index].sum_U += U;
         half_hourly_data[half_hour_index].sum_I += I;
         half_hourly_data[half_hour_index].count++;
@@ -137,7 +133,7 @@ void calculateHalfHourlyAverage(vector<vector<string>>& data_array) {
 
 
 void calculateFiveMinuteAverage(vector<vector<string>>& data_array) {
-    // Przechowywanie sumy napiecia, sumy natezenia i liczby pomiarów dla kazdej 5-minutowej
+    // Przechowywanie sumy napiecia, sumy natezenia i liczby pomiarow dla kazdej 5-minutowej
     vector<FiveMinuteData> five_minute_data(288);
 
     // Iteracja po wszystkich odczytanych danych
@@ -146,20 +142,20 @@ void calculateFiveMinuteAverage(vector<vector<string>>& data_array) {
         double U = stod(entry[1]);//konwersja na double
         double I = stod(entry[2]);
 
-        // Pobranie godziny i minuty z timestampu
+        // Pobranie godziny i minuty
         int hour = stoi(timestamp.substr(8, 2));
         int minute = stoi(timestamp.substr(10, 2));
 
-        // Okreslenie indeksu dla danej 5-minutowej
+        // Okreslenie indeksu
         int five_minute_index = hour * 12 + minute / 5;
 
-        // Dodanie danych do sumy i zwiekszenie liczby pomiarów w danej 5-minutowej
+        
         five_minute_data[five_minute_index].sum_U += U;
         five_minute_data[five_minute_index].sum_I += I;
         five_minute_data[five_minute_index].count++;
     }
 
-    // Wyswietlenie srednich wartosci napiecia i natezenia co 5 minut
+    // Wyswietlenie
     cout << "5 Minutest\tAverage U\tAverage I" << endl;
     cout << "------------------------------------------" << endl;
     for (int i = 0; i < 288; ++i) {
