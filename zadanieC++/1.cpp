@@ -59,7 +59,6 @@ int main(int argc, char* argv[]) {
                break;
             }
         }
-
     }
     cout<<"Quantity of skipping line: "<<counter<<endl;
 // Wybor funkcji
